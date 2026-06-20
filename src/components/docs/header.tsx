@@ -22,7 +22,7 @@ export default function Header({
   canEdit = true,
 }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-30 h-[49px] flex items-center border-b border-border bg-background/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-30 h-[49px] flex items-center border-b border-border bg-background">
       <div className="flex items-center w-full px-4">
         {/* Left: Logo + Nav */}
         <div className="flex items-center gap-4">

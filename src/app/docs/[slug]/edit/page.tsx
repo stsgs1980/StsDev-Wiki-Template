@@ -135,7 +135,7 @@ export default function EditDocPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Top bar */}
-      <div className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur-sm">
+      <div className="sticky top-0 z-30 border-b border-border bg-background">
         <div className="flex items-center justify-between px-4 h-[49px]">
           <div className="flex items-center gap-3">
             <button
