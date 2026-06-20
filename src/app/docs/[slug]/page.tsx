@@ -15,18 +15,10 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-// dynamicParams: true allows newly created pages to render on-demand
-// without a full rebuild. For static export (GitHub Pages) this is ignored
-// because output: "export" generates all pages at build time anyway.
-export const dynamicParams = true;
-
-// Revalidate every 10s so new/updated pages appear without full rebuild
-export const revalidate = 10;
-
-export async function generateStaticParams() {
-  const slugs = getAllSlugs();
-  return slugs.map((slug) => ({ slug }));
-}
+// Fully dynamic — no ISR cache, always reads fresh files from disk.
+// This ensures newly created pages are immediately accessible.
+// For GitHub Pages static export this flag is ignored (all pages built at deploy time).
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
