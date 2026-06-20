@@ -320,20 +320,28 @@
 
 .docs-golden-grid {
   display: grid;
+  grid-template-columns: 1fr 1.618fr;
   min-height: calc(100vh - 49px);
 }
 
-/* On xl+ screens: sidebar + content + TOC */
+/* On xl+ screens: sidebar + content + TOC in Fibonacci proportions */
 @media (min-width: 1280px) {
   .docs-golden-grid {
-    grid-template-columns: 280px minmax(0, 1fr) 220px;
+    grid-template-columns: 280px minmax(0, 1.618fr) 220px;
   }
 }
 
-/* Tablet & mobile: single column — sidebar/TOC are hidden via display:none */
-@media (max-width: 1279px) {
+/* Mobile: single column stack */
+@media (max-width: 767px) {
   .docs-golden-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Tablet: sidebar collapsed, content + TOC */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .docs-golden-grid {
+    grid-template-columns: 1fr 1.618fr;
   }
 }
 
