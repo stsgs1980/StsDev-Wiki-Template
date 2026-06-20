@@ -133,9 +133,11 @@ export default function DocsShell({
 
             {/* MDX Content — pre-rendered on server */}
             {renderedContent}
+          </div>
 
-            {/* Navigation */}
-            <div className="mt-12 pt-6 border-t border-border grid grid-cols-2 gap-4">
+          {/* Navigation — outside content padding, flush to main bottom */}
+          <div className="xl:mx-auto xl:max-w-[840px] px-6 xl:px-10 py-6 border-t border-border mt-8">
+            <div className="grid grid-cols-2 gap-4">
               {adjacent.prev ? (
                 <button
                   onClick={() => handleNavigate(adjacent.prev.slug)}
