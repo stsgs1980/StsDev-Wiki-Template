@@ -16,8 +16,8 @@ export default function TOC({ headings, activeId }: TOCProps) {
       <nav className="py-4 pl-6">
         <h4 className="text-[14px] font-medium text-muted-foreground mb-3 px-2">On this page</h4>
         <ul className="space-y-1 border-l border-border">
-          {headings.map((heading) => (
-            <li key={heading.id}>
+          {headings.map((heading, index) => (
+            <li key={`${heading.id}-${index}`}>
               <a
                 href={`#${heading.id}`}
                 onClick={(e) => {
