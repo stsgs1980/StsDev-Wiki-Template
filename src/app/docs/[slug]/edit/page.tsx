@@ -36,6 +36,7 @@ interface DocData {
   meta: {
     title: string;
     section: string;
+    sectionOrder?: number;
     order: number;
     slug: string;
   };

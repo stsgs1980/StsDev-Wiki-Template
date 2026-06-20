@@ -46,6 +46,8 @@ function NewDocPageInner() {
   const [title, setTitle] = useState('');
   const [section, setSection] = useState(searchParams.get('section') || '');
   const [slug, setSlug] = useState('');
+  const [sectionOrder, setSectionOrder] = useState(searchParams.get('sectionOrder') || '');
+  const [order, setOrder] = useState('0');
   const [content, setContent] = useState('# Новая страница\n\nНачните писать здесь...');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
@@ -92,7 +94,8 @@ function NewDocPageInner() {
         body: JSON.stringify({
           title,
           section: section || 'Uncategorized',
-          order: 0,
+          sectionOrder: sectionOrder ? parseInt(sectionOrder) : undefined,
+          order: order ? parseInt(order) : 0,
           slug,
           content,
         }),
@@ -111,7 +114,7 @@ function NewDocPageInner() {
     } finally {
       setSaving(false);
     }
-  }, [title, slug, section, content, router]);
+  }, [title, slug, section, sectionOrder, order, content, router]);
 
   // File upload
   const handleFileUpload = useCallback(
@@ -219,7 +222,7 @@ function NewDocPageInner() {
 
       {/* Frontmatter form */}
       <div className="border-b border-border bg-muted/30">
-        <div className="mx-auto max-w-[960px] px-4 py-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="mx-auto max-w-[960px] px-4 py-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
           <div>
             <label className="block text-[12px] text-muted-foreground mb-1">
               Заголовок *
@@ -253,6 +256,30 @@ function NewDocPageInner() {
               value={slug}
               onChange={(e) => setSlug(e.target.value)}
               placeholder="auto-generated-from-title"
+              className="w-full px-3 py-1.5 text-[14px] rounded-md border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+            />
+          </div>
+          <div>
+            <label className="block text-[12px] text-muted-foreground mb-1">
+              Порядок секции
+            </label>
+            <input
+              type="number"
+              value={sectionOrder}
+              onChange={(e) => setSectionOrder(e.target.value)}
+              placeholder="авто"
+              className="w-full px-3 py-1.5 text-[14px] rounded-md border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+            />
+          </div>
+          <div>
+            <label className="block text-[12px] text-muted-foreground mb-1">
+              Порядок страницы
+            </label>
+            <input
+              type="number"
+              value={order}
+              onChange={(e) => setOrder(e.target.value)}
+              placeholder="0"
               className="w-full px-3 py-1.5 text-[14px] rounded-md border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
             />
           </div>
