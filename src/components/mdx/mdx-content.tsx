@@ -133,7 +133,7 @@ const mdxComponents = {
     return <PlainCodeBlock>{text}</PlainCodeBlock>;
   },
   blockquote: ({ children }: React.HTMLAttributes<HTMLQuoteElement>) => (
-    <blockquote className="my-4 pl-4 border-l-2 border-border text-muted-foreground not-italic [&_p]:mb-1 [&_p:last-child]:mb-0 [&_p]:leading-snug [&_p]:text-[14px]">
+    <blockquote className="my-4 pl-4 border-l-2 border-border text-muted-foreground not-italic [&_p]:mb-1 [&_p:last-child]:mb-0 [&_p]:text-[14px] [&_p]:leading-relaxed [&_strong]:font-medium [&_strong]:text-foreground [&_em]:italic [&_em]:text-foreground/80 [&_code]:text-[13px] [&_code]:bg-muted [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono [&_a]:text-[oklch(0.45_0.15_250)] [&_a:hover]:underline dark:[&_a]:text-[oklch(0.685_0.169_237.323)]">
       {children}
     </blockquote>
   ),
