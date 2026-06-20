@@ -2,7 +2,7 @@ import React from 'react';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
-import { CodeBlock, InlineCode, MermaidDiagram, Callout, Badge } from '@/components/mdx/mdx-components';
+import { CodeBlock, InlineCode, PlainCodeBlock, MermaidDiagram, Callout, Badge } from '@/components/mdx/mdx-components';
 
 // Shared MDX components available in all .mdx files
 const mdxComponents = {
@@ -77,9 +77,12 @@ const mdxComponents = {
     children,
     ...props
   }: React.HTMLAttributes<HTMLElement> & { inline?: boolean }) => {
-    const match = /language-(\w+)/.exec(className || '');
+    // Match language-xxx including languages with + - . characters
+    // e.g. language-c++, language-objective-c, language-nginx-config
+    const match = /language-([\w+.-]+)/.exec(className || '');
     const codeString = String(children).replace(/\n$/, '');
 
+    // No language class → inline code (e.g. `const x = 1` in a paragraph)
     if (!match) {
       return <InlineCode>{children}</InlineCode>;
     }
@@ -93,13 +96,18 @@ const mdxComponents = {
     return <CodeBlock language={match[1]}>{codeString}</CodeBlock>;
   },
   // Unwrap <pre> — the code component above handles rendering.
-  // If <pre> contains a <code> without a language class, render it as
-  // a plain code block (monospace, scrollable) rather than inline code.
+  // Special case: <pre><code> WITHOUT a language class is a plain code block,
+  // not inline code. We detect it here by checking if children is already
+  // a CodeBlock/MermaidDiagram (has language) or if it's bare text.
   pre: ({ children }: React.HTMLAttributes<HTMLPreElement>) => {
-    // Check if children is a code element without language
-    // react-syntax-highlighter CodeBlock already handles styled blocks,
-    // so this only catches bare <pre><code> blocks
-    return <>{children}</>;
+    // If children is already a React element (CodeBlock, MermaidDiagram, InlineCode),
+    // just pass it through — the code component already handled it.
+    if (React.isValidElement(children)) {
+      return <>{children}</>;
+    }
+    // If children is a raw string (bare <pre>text</pre>), render as plain block
+    const text = String(children).replace(/\n$/, '');
+    return <PlainCodeBlock>{text}</PlainCodeBlock>;
   },
   blockquote: ({ children }: React.HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote className="my-4 pl-4 border-l-2 border-border text-muted-foreground italic">

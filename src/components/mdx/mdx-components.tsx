@@ -16,6 +16,11 @@ interface CodeBlockProps {
 
 /**
  * CodeBlock component with syntax highlighting and copy button.
+ * - Theme-aware: switches oneDark/oneLight based on resolvedTheme
+ * - No SSR flash: renders a skeleton placeholder until mounted
+ * - Copy button with clipboard API
+ * - Line numbers + optional filename header
+ *
  * Usage in MDX:
  *   <CodeBlock language="typescript" filename="app.tsx">
  *     const x = 1;
@@ -31,19 +36,51 @@ export function CodeBlock({
   const [mounted, setMounted] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  // Prevent flash: only render themed highlighter after mount
-  // On SSR, resolvedTheme is undefined → we'd get light theme every time
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const isDark = mounted ? resolvedTheme === 'dark' : false;
+  const isDark = resolvedTheme === 'dark';
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(children.trim());
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    try {
+      await navigator.clipboard.writeText(children.trim());
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Fallback for contexts where clipboard API is unavailable
+      const textarea = document.createElement('textarea');
+      textarea.value = children.trim();
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
+
+  const lineCount = children.trim().split('\n').length;
+
+  // Before mount: render a skeleton placeholder to avoid SSR/client mismatch.
+  // Using the same outer structure (header + body) prevents layout shift.
+  if (!mounted) {
+    return (
+      <div className="my-4 rounded-lg overflow-hidden border border-border">
+        <div className="flex items-center justify-between px-4 py-2 bg-muted border-b border-border">
+          <span className="text-xs text-muted-foreground font-mono">
+            {filename || language}
+          </span>
+        </div>
+        <div
+          className="p-4 font-mono text-[13px] leading-relaxed"
+          style={{ background: '#1a1a1a' }}
+        >
+          {children.trim()}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="my-4 rounded-lg overflow-hidden border border-border group relative">
@@ -95,13 +132,60 @@ export function CodeBlock({
 }
 
 /**
- * Inline code component
+ * Inline code component — for single-line code snippets within paragraphs.
+ * Example: `const x = 1`
  */
 export function InlineCode({ children }: { children: React.ReactNode }) {
   return (
     <code className="px-1.5 py-0.5 rounded bg-muted text-foreground/90 text-sm font-mono">
       {children}
     </code>
+  );
+}
+
+/**
+ * Plain code block — for fenced code blocks without a language specifier.
+ * Rendered as a monospace scrollable block (not inline code).
+ * Example:
+ *   ```
+ *   some plain text
+ *   ```
+ */
+export function PlainCodeBlock({ children }: { children: string }) {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = resolvedTheme === 'dark';
+
+  if (!mounted) {
+    return (
+      <div className="my-4 rounded-lg overflow-hidden border border-border">
+        <div
+          className="p-4 font-mono text-[13px] leading-relaxed overflow-x-auto whitespace-pre"
+          style={{ background: '#1a1a1a' }}
+        >
+          {children.trim()}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="my-4 rounded-lg overflow-hidden border border-border">
+      <div
+        className="p-4 font-mono text-[13px] leading-relaxed overflow-x-auto whitespace-pre"
+        style={{
+          background: isDark ? '#1a1a1a' : '#fafafa',
+          color: isDark ? '#e5e5e5' : '#333',
+        }}
+      >
+        {children.trim()}
+      </div>
+    </div>
   );
 }
 
@@ -173,7 +257,7 @@ export function MermaidDiagram({ code }: { code: string }) {
     return () => {
       cancelled = true;
     };
-  }, [code, resolvedTheme]);
+  }, [code, resolvedTheme, mounted]);
 
   if (error) {
     return (
