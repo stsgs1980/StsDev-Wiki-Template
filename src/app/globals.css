@@ -121,6 +121,14 @@
   body {
     @apply bg-background text-foreground;
   }
+  /* Prevent global border-color from leaking into syntax highlighter.
+     react-syntax-highlighter renders each line as a separate DOM element,
+     and the universal * { border-color } rule adds visible hairlines. */
+  .docs-content pre *,
+  .docs-content pre,
+  .docs-content code {
+    border-color: transparent;
+  }
 }
 
 /* Custom scrollbar */
