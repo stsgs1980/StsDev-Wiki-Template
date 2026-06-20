@@ -65,7 +65,7 @@ export default function Sidebar({
                 ) : (
                   <ChevronRight className="h-3 w-3 mr-1.5 shrink-0" />
                 )}
-                <span className="truncate">{section.title}</span>
+                <span className="break-words">{section.title}</span>
               </button>
               {isSectionOpen && (
                 <div className="ml-4 mt-0.5 space-y-0.5">
@@ -73,7 +73,7 @@ export default function Sidebar({
                     <button
                       key={item.slug}
                       onClick={() => handleNavigate(item.slug)}
-                      className={`block w-full text-left px-2.5 py-1.5 text-[13px] rounded-md transition-all truncate ${
+                      className={`block w-full text-left px-2.5 py-1.5 text-[13px] rounded-md transition-all break-words ${
                         currentSlug === item.slug
                           ? 'bg-muted text-foreground font-medium'
                           : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'

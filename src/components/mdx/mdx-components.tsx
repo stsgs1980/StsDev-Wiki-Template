@@ -363,12 +363,12 @@ export function MermaidDiagram({ code }: { code: string }) {
   return (
     <div
       ref={containerRef}
-      className="my-4 rounded-lg border border-border bg-muted/50 p-4 overflow-x-auto"
+      className="my-4 rounded-lg border border-border bg-muted/50 p-4 overflow-auto"
     >
       {svg ? (
         <div
           dangerouslySetInnerHTML={{ __html: svg }}
-          className="[&>svg]:max-w-full [&>svg]:h-auto"
+          className="[&>svg]:max-w-full"
         />
       ) : (
         <div className="flex items-center justify-center py-8">
