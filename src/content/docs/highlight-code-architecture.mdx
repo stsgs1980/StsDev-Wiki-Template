@@ -1,0 +1,95 @@
+---
+title: "Highlight Code Architecture"
+section: "Uploaded"
+order: 0
+slug: "highlight-code-architecture"
+---
+
+# Как реализован Highlight Code в песочнице Z.ai
+
+Исследование кодовой базы показало, что **выделение кода (syntax highlighting) в песочнице реализовано на уровне дизайн-спецификаций и CSS-токенов, но не как полноценный рантайм-модуль**.
+
+---
+
+## 1. zai-ui-composer — оркестратор (токены)
+
+Файл `skills/zai-ui-composer_sts/SKILL.md` описывает систему, которая через **intent detection** направляет запросы про код:
+
+```
+Intent: "code", "terminal", "IDE", "editor"
+  → Скин: dark-zai или amber-retro
+  → Компоненты: CodeBlock, syntax-*, cursor-blink
+```
+
+Там же упоминаются:
+
+- **`references/syntax.css`** — 3 темы подсветки синтаксиса (dark-zai, light-corp, amber-retro)
+- **`CodeBlock`** — компонент для фреймворков Dashboard и Golden Split
+- **`prism-text`** — CSS-эффект (не библиотека PrismJS, а текстовый эффект из effects.css)
+
+> ⚠️ **Критичный момент**: файл `references/syntax.css` **не существует на диске** — он лишь упомянут в спеке, но не распределён в проекте.
+
+---
+
+## 2. Brand Inspiration — дизайн-референсы
+
+Несколько брендовых дизайн-систем определяют токены для `code-block`, но **без рантайм-движка**:
+
+| Бренд      | Шрифт          | Размер | Фон                  | Доп.                     |
+|------------|----------------|--------|----------------------|--------------------------|
+| Mintlify   | Geist Mono     | 14px   | `surface-code`       | header-bar с кнопкой Copy |
+| Cursor     | JetBrains Mono | 13px   | `surface-card`       | padding 20px             |
+| Vercel     | Geist Mono     | 13px   | —                    | `highlight-pink/magenta` градиенты |
+| GitHub     | SFMono         | 12px   | `Canvas Inset #eaeef2` | inline code 0.85em    |
+| Stripe     | SourceCodePro  | 12px   | —                    | line-height 2.0          |
+
+---
+
+## 3. Ручная подсветка через `<span>` — единственная реализация
+
+В HTML-шаблонах брендов (`stripe/components.html`, `kami/components.html`) код подсвечивается **вручную**:
+
+```html
+<pre class="code">
+  <span class="c">// comment</span>
+  <span class="k">const</span> x = <span class="s">"hello"</span>;
+</pre>
+```
+
+CSS-классы: `.c` (комментарии), `.k` (ключевые слова), `.n` (имена), `.s` (строки). Это **не автоматический парсер**, а захардкоженная разметка.
+
+---
+
+## 4. Нет интеграции с библиотеками подсветки
+
+В проекте **отсутствуют**:
+
+- ❌ PrismJS
+- ❌ Highlight.js
+- ❌ Shiki
+- ❌ Любые CDN-ссылки или npm-импорты для подсветки кода
+
+---
+
+## Архитектурная схема
+
+```
+zai-ui-composer_sts (оркестратор)
+  ├── references/syntax.css        ← 3 темы (НЕ СУЩЕСТВУЕТ на диске)
+  ├── references/effects.css       ← .prism-text, .neon-glow (НЕ СУЩЕСТВУЕТ)
+  └── Intent → "code" → dark-zai/amber-retro + CodeBlock + syntax-*
+
+Brand Inspiration (референсы, не рантайм)
+  ├── mintlify/ → code-block, copy-button токены
+  ├── cursor/   → JetBrains Mono токены
+  ├── stripe/   → ручной <span>-рендеринг в HTML
+  └── kami/     → ручной <span>-рендеринг в HTML
+
+Внешние библиотеки: НЕТ
+```
+
+---
+
+## Вывод
+
+Подсветка кода в песочнице Z.ai — это **дизайн-система без рантайм-движка**. Токены и спецификации описаны в SKILL.md и brand-inspiration, но фактическая подсветка — либо отсутствует (syntax.css не на диске), либо реализована вручную через `<span>`-обёртки в HTML-шаблонах. Для полноценной подсветки потребовалось бы создать `syntax.css` с тремя темами и/или интегрировать библиотеку (например, Shiki для статической генерации или PrismJS для клиентской).
