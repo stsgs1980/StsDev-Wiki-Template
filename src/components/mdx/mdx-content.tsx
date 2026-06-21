@@ -99,8 +99,17 @@ function buildMdxComponents(validSlugs: string[]) {
       const match = /language-([\w+.-]+)/.exec(className || '');
       const codeString = String(children).replace(/\n$/, '');
 
-      // No language class -> inline code (e.g. `const x = 1` in a paragraph)
-      if (!match) return <InlineCode>{children}</InlineCode>;
+      // No language class
+      if (!match) {
+        // Multi-line content without language = fenced code block (```\n...\n```)
+        // Render directly as PlainCodeBlock because MDX may not wrap in <pre>
+        // when the code override returns a non-<code> element.
+        if (codeString.includes('\n')) {
+          return <PlainCodeBlock>{codeString}</PlainCodeBlock>;
+        }
+        // Single-line, no language = inline code (e.g. `const x = 1`)
+        return <InlineCode>{children}</InlineCode>;
+      }
 
       // Mermaid diagrams
       if (match[1] === 'mermaid') return <MermaidDiagram code={codeString} />;
