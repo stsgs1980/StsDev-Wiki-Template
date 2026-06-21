@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
@@ -138,16 +139,28 @@ const mdxComponents = {
       {children}
     </blockquote>
   ),
-  a: ({ children, href }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
-    <a
-      href={href}
-      className="text-[oklch(0.45_0.15_250)] hover:underline dark:text-[oklch(0.685_0.169_237.323)]"
-      target={href?.startsWith('http') ? '_blank' : undefined}
-      rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-    >
-      {children}
-    </a>
-  ),
+  a: ({ children, href }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
+    const isExternal = href?.startsWith('http') || href?.startsWith('//');
+    const linkClass = "text-[oklch(0.45_0.15_250)] hover:underline dark:text-[oklch(0.685_0.169_237.323)]";
+    if (isExternal) {
+      return (
+        <a
+          href={href}
+          className={linkClass}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {children}
+        </a>
+      );
+    }
+    // Internal link — use Next.js Link for client-side navigation
+    return (
+      <Link href={href || '/'} className={linkClass}>
+        {children}
+      </Link>
+    );
+  },
   hr: () => <hr className="my-8 border-border" />,
   img: ({ src, alt, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => (
     // eslint-disable-next-line @next/next/no-img-element

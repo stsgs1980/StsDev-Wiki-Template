@@ -43,6 +43,17 @@ export default function ExpandableContent({ children }: { children: React.ReactN
     return () => document.removeEventListener('keydown', handleKey);
   }, [expanded, close]);
 
+  // Inject expandable-block cursor style via DOM (not <style> in JSX)
+  useEffect(() => {
+    const id = 'expandable-content-cursor-style';
+    if (document.getElementById(id)) return;
+    const style = document.createElement('style');
+    style.id = id;
+    style.textContent = `.docs-content ${EXPANDABLE_SELECTOR} { cursor: pointer; }`;
+    document.head.appendChild(style);
+    return () => { style.remove(); };
+  }, []);
+
   // Lock body scroll when expanded
   useEffect(() => {
     if (expanded) {
@@ -93,13 +104,6 @@ export default function ExpandableContent({ children }: { children: React.ReactN
       >
         {children}
       </div>
-
-      {/* Subtle cursor hint on expandable blocks — no glow, just pointer */}
-      <style>{`
-        .docs-content ${EXPANDABLE_SELECTOR} {
-          cursor: pointer;
-        }
-      `}</style>
 
       {/* Fullscreen overlay */}
       {expanded && (

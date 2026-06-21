@@ -46,7 +46,7 @@ export default function Sidebar({
       if (prev.has(active)) return prev;
       return new Set(active ? [active] : []);
     });
-  }, [currentSlug]);
+  }, [currentSlug, navigation]);
 
   const [deleteTarget, setDeleteTarget] = useState<{ slug: string; title: string } | null>(null);
   const [deleting, setDeleting] = useState(false);
