@@ -5,7 +5,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { useTheme } from 'next-themes';
-import { Check, Copy, Expand } from 'lucide-react';
+import { Check, Copy } from 'lucide-react';
 
 interface CodeBlockProps {
   children: string;
@@ -33,7 +33,6 @@ export function CodeBlock({
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -44,8 +43,6 @@ export function CodeBlock({
   const headerBg = isDark ? '#15151f' : '#f0f0f0';
   const borderColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.08)';
   const lineNumberColor = isDark ? '#3a3a4a' : '#c8c8c8';
-  const labelColor = isDark ? '#878992' : '#6b7280';
-
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(children.trim());
@@ -100,8 +97,8 @@ export function CodeBlock({
       margin: 0,
       borderRadius: 0,
       background: codeBg,
-      fontSize: expanded ? '15px' : '13px',
-      padding: expanded ? '24px' : '16px',
+      fontSize: '13px',
+      padding: '16px',
       border: 'none',
     },
     lineNumberStyle: {
@@ -131,18 +128,6 @@ export function CodeBlock({
       </span>
       <div className="flex items-center gap-1">
         <button
-          onClick={(e) => { e.stopPropagation(); setExpanded(!expanded); }}
-          className={`flex items-center gap-1 px-2 py-1 rounded text-xs transition-colors ${
-            isDark
-              ? 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
-              : 'text-gray-500 hover:text-gray-700 hover:bg-black/5'
-          }`}
-          aria-label={expanded ? 'Collapse code' : 'Expand code'}
-          title={expanded ? 'Свернуть' : 'Развернуть'}
-        >
-          {expanded ? <Shrink className="h-3.5 w-3.5" /> : <Expand className="h-3.5 w-3.5" />}
-        </button>
-        <button
           onClick={(e) => { e.stopPropagation(); handleCopy(); }}
           className={`flex items-center gap-1 px-2 py-1 rounded text-xs transition-colors ${
             isDark
@@ -167,36 +152,10 @@ export function CodeBlock({
     </div>
   );
 
-  // Expanded: fullscreen overlay
-  if (expanded) {
-    return (
-      <div
-        className="fixed inset-0 z-50 flex flex-col"
-        style={{ background: isDark ? 'rgba(0,0,0,0.8)' : 'rgba(0,0,0,0.5)' }}
-        onClick={() => setExpanded(false)}
-      >
-        <div
-          className="mx-auto my-8 w-full max-w-6xl flex flex-col rounded-lg overflow-hidden shadow-2xl"
-          style={{ border: `1px solid ${borderColor}`, maxHeight: 'calc(100vh - 4rem)' }}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {headerBar}
-          <div className="overflow-auto flex-1">
-            <SyntaxHighlighter {...highlighterProps}>
-              {children.trim()}
-            </SyntaxHighlighter>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div
-      className="my-4 rounded-lg overflow-hidden group relative cursor-pointer"
+      className="my-4 rounded-lg overflow-hidden"
       style={{ border: `1px solid ${borderColor}` }}
-      onClick={() => setExpanded(true)}
-      title="Нажмите для увеличения"
     >
       {headerBar}
       <SyntaxHighlighter {...highlighterProps}>

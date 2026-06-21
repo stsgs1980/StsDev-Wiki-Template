@@ -17,8 +17,7 @@ import React, { useRef, useState, useCallback, useEffect } from 'react';
 
 /** CSS selectors for expandable block types */
 const EXPANDABLE_SELECTOR = [
-  'div.my-4',                          // CodeBlock, PlainCodeBlock, MermaidDiagram
-  'div.rounded-lg.border',             // table wrappers, mermaid containers
+  'div.my-4',                          // CodeBlock, PlainCodeBlock, MermaidDiagram, Callout
   'div.overflow-x-auto',               // table overflow wrappers
   'img.max-w-full',                    // images
 ].join(', ');
@@ -72,7 +71,7 @@ export default function ExpandableContent({ children }: { children: React.ReactN
     const block = target.closest(EXPANDABLE_SELECTOR) as HTMLElement | null;
     if (!block) return;
 
-    // Don't expand inline code or small elements
+    // Don't expand small elements (inline code wrapped in my-4 etc.)
     const rect = block.getBoundingClientRect();
     if (rect.width < 200 && rect.height < 60) return;
 
@@ -92,19 +91,13 @@ export default function ExpandableContent({ children }: { children: React.ReactN
         className="docs-content max-w-none"
         style={{ cursor: 'default' }}
       >
-        {/* Mark expandable blocks with a cursor hint via CSS */}
         {children}
       </div>
 
-      {/* Global style: cursor hint on expandable blocks */}
+      {/* Subtle cursor hint on expandable blocks — no glow, just pointer */}
       <style>{`
         .docs-content ${EXPANDABLE_SELECTOR} {
           cursor: pointer;
-          transition: box-shadow 150ms ease;
-        }
-        .docs-content ${EXPANDABLE_SELECTOR}:hover {
-          box-shadow: 0 0 0 1px var(--ring, rgba(0,0,0,0.15));
-          border-radius: 0.5rem;
         }
       `}</style>
 
@@ -117,7 +110,7 @@ export default function ExpandableContent({ children }: { children: React.ReactN
           onClick={close}
         >
           <div
-            className="bg-background rounded-lg border border-border shadow-2xl overflow-auto max-w-[95vw] max-h-[92vh] w-full"
+            className="bg-background rounded-lg border border-border overflow-auto max-w-[95vw] max-h-[92vh] w-full"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close button */}
@@ -129,7 +122,7 @@ export default function ExpandableContent({ children }: { children: React.ReactN
                 ✕ Закрыть
               </button>
             </div>
-            {/* Cloned content — scale up slightly for readability */}
+            {/* Cloned content */}
             <div
               className="p-6"
               style={{ fontSize: '15px' }}
