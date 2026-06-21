@@ -66,7 +66,28 @@ export default function ExpandableContent({ children }: { children: React.ReactN
     if (document.getElementById(id)) return;
     const style = document.createElement('style');
     style.id = id;
-    style.textContent = `.docs-content ${EXPANDABLE_SELECTOR} { cursor: pointer; }`;
+    style.textContent = `
+      .docs-content ${EXPANDABLE_SELECTOR} { cursor: pointer; position: relative; }
+      .docs-content ${EXPANDABLE_SELECTOR}::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        pointer-events: none;
+        z-index: 1;
+        background:
+          rgba(0,0,0,0.04),
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 3 21 3 21 9'%3E%3C/polyline%3E%3Cpolyline points='9 21 3 21 3 15'%3E%3C/polyline%3E%3Cline x1='21' y1='3' x2='14' y2='10'%3E%3C/line%3E%3Cline x1='3' y1='21' x2='10' y2='14'%3E%3C/line%3E%3C/svg%3E") no-repeat bottom 8px right 8px;
+      }
+      .docs-content ${EXPANDABLE_SELECTOR}:hover::after { opacity: 1; }
+      :is(.dark) .docs-content ${EXPANDABLE_SELECTOR}::after {
+        background:
+          rgba(255,255,255,0.04),
+          url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23aaa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 3 21 3 21 9'%3E%3C/polyline%3E%3Cpolyline points='9 21 3 21 3 15'%3E%3C/polyline%3E%3Cline x1='21' y1='3' x2='14' y2='10'%3E%3C/line%3E%3Cline x1='3' y1='21' x2='10' y2='14'%3E%3C/line%3E%3C/svg%3E") no-repeat bottom 8px right 8px;
+      }
+    `;
     document.head.appendChild(style);
     return () => { style.remove(); };
   }, []);
@@ -205,7 +226,7 @@ export default function ExpandableContent({ children }: { children: React.ReactN
             </div>
             {/* Cloned content */}
             <div
-              className="p-6"
+              className="p-6 [&_svg]:max-w-full [&_svg]:w-full [&_svg]:h-auto"
             >
               <div dangerouslySetInnerHTML={{ __html: expandedHtml }} />
             </div>

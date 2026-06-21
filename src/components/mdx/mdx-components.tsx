@@ -337,17 +337,18 @@ export function MermaidDiagram({ code }: { code: string }) {
               }
             : {
                 background: '#ffffff',
-                primaryColor: '#f0f0f0',
-                primaryTextColor: '#1a1a1a',
-                primaryBorderColor: '#d0d0d0',
-                lineColor: '#999',
-                secondaryColor: '#e8e8e8',
-                tertiaryColor: '#f5f5f5',
+                primaryColor: '#dbeafe',
+                primaryTextColor: '#1e293b',
+                primaryBorderColor: '#93c5fd',
+                lineColor: '#64748b',
+                secondaryColor: '#e0e7ff',
+                tertiaryColor: '#f8fafc',
                 fontFamily: 'system-ui, sans-serif',
                 fontSize: '13px',
-                nodeBorder: '#ccc',
-                mainBkg: '#f0f0f0',
-                clusterBkg: '#f5f5f5',
+                nodeBorder: '#93c5fd',
+                mainBkg: '#dbeafe',
+                clusterBkg: '#f0f9ff',
+                edgeLabelBackground: '#ffffff',
               },
         });
         const id = `mermaid-${Math.random().toString(36).substr(2, 9)}`;
@@ -380,6 +381,7 @@ export function MermaidDiagram({ code }: { code: string }) {
     <div
       ref={containerRef}
       className="my-4 rounded-lg border border-border bg-muted/50 p-4 overflow-auto"
+      data-expandable
     >
       {svg ? (
         <div
