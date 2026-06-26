@@ -1,0 +1,3 @@
+[submodule ".superpowers-zai"]
+	path = .superpowers-zai
+	url = https://github.com/stsgs1980/Superpowers-Z.ai.git
