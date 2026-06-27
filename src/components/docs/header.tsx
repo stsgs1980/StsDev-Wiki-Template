@@ -15,7 +15,6 @@ interface HeaderProps {
   currentSlug?: string;
   canEdit?: boolean;
   version?: string;
-  build?: number;
 }
 
 export default function Header({
@@ -25,7 +24,6 @@ export default function Header({
   currentSlug,
   canEdit = true,
   version,
-  build,
 }: HeaderProps) {
   const isWikiIndex = currentSlug === WIKI_INDEX_SLUG;
   const activeTabStyle =
@@ -154,7 +152,6 @@ export default function Header({
           {version && (
             <span className="docs-show-md-inline-flex text-muted-foreground/60 border-border items-center rounded-md border px-2 py-1 font-mono text-[11px] select-none">
               v{version}
-              {build ? `.${build}` : ""}
             </span>
           )}
         </div>

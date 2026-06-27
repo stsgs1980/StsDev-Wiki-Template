@@ -27,7 +27,6 @@ interface DocsShellProps {
   adjacent: AdjacentPages;
   canEdit?: boolean;
   version?: string;
-  build?: number;
 }
 
 /**
@@ -66,7 +65,6 @@ export default function DocsShell({
   adjacent,
   canEdit = true,
   version,
-  build,
 }: DocsShellProps) {
   const router = useRouter();
   const [activeHeading, setActiveHeading] = useState("");
@@ -133,7 +131,6 @@ export default function DocsShell({
         currentSlug={slug}
         canEdit={canEdit}
         version={version}
-        build={build}
       />
 
       {/* Golden Split Grid — phi-layout: 1fr 1.618fr proportions
