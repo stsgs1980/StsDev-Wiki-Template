@@ -1,11 +1,12 @@
 ---
 title: "MCP интеграция (Model Context Protocol)"
 section: "MCP интеграция"
-sectionOrder: 120
+sectionOrder: 100
 order: 1
 slug: "mcp-integraciya"
 ---
 
+# DOC-010: MCP интеграция (Model Context Protocol)
 
 ## Источник
 - https://hermes-agent.nousresearch.com/docs/user-guide/features/mcp

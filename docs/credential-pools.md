@@ -1,7 +1,7 @@
 ---
 title: "Credential Pools"
 section: "Credential Pools"
-sectionOrder: 210
+sectionOrder: 190
 order: 1
 slug: "credential-pools"
 ---
@@ -69,7 +69,7 @@ anthropic (3 credentials):
   #3  ANTHROPIC_API_KEY    api_key env:ANTHROPIC_API_KEY
 ```
 
-Стрелка `` <- `` обозначает текущий активный учётный объект.
+Стрелка `<-` обозначает текущий активный учётный объект.
 
 ## Интерактивное управление
 

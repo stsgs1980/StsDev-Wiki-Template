@@ -1,11 +1,12 @@
 ---
 title: "Troubleshooting Hermes Agent"
 section: "Troubleshooting"
-sectionOrder: 70
+sectionOrder: 50
 order: 1
 slug: "troubleshooting"
 ---
 
+# Troubleshooting Hermes Agent
 
 **Версия документа:** 1.0
 **Дата:** 2026-06-28

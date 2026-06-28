@@ -1,11 +1,12 @@
 ---
 title: "Личность агента (SOUL.md) и контекстные файлы"
 section: "Личность агента"
-sectionOrder: 80
+sectionOrder: 70
 order: 1
 slug: "lichnost-agenta"
 ---
 
+# DOC-007: Личность агента (SOUL.md) и контекстные файлы
 
 ## Источник
 - https://hermes-agent.nousresearch.com/docs/user-guide/features/personality

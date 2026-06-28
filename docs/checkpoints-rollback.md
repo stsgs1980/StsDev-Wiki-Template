@@ -1,7 +1,7 @@
 ---
 title: "Checkpoints & Rollback"
 section: "Checkpoints & Rollback"
-sectionOrder: 190
+sectionOrder: 170
 order: 1
 slug: "checkpoints-rollback"
 ---

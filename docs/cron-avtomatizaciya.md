@@ -1,7 +1,7 @@
 ---
 title: "Cron автоматизация"
 section: "Cron автоматизация"
-sectionOrder: 160
+sectionOrder: 140
 order: 1
 slug: "cron-avtomatizaciya"
 ---

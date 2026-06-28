@@ -1,7 +1,7 @@
 ---
 title: "Memory провайдеры"
 section: "Memory провайдеры"
-sectionOrder: 140
+sectionOrder: 120
 order: 1
 slug: "memory-provaidery"
 ---

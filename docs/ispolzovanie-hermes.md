@@ -1,11 +1,12 @@
 ---
 title: "Использование Hermes Agent"
 section: "Использование"
-sectionOrder: 60
+sectionOrder: 40
 order: 1
 slug: "ispolzovanie-hermes"
 ---
 
+# Использование Hermes Agent
 
 **Версия документа:** 1.0
 **Дата:** 2026-06-28

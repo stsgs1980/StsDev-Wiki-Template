@@ -1,11 +1,12 @@
 ---
 title: "Безопасность Hermes Agent"
 section: "Безопасность"
-sectionOrder: 130
+sectionOrder: 90
 order: 1
 slug: "bezopasnost"
 ---
 
+# DOC-009: Безопасность Hermes Agent
 
 ## Источник
 - https://hermes-agent.nousresearch.com/docs/user-guide/security
@@ -88,7 +89,7 @@ $env:HERMES_YOLO_MODE=1  # переменная окружения
 | `systemctl stop/restart/disable/mask` | Остановка системных сервисов |
 | `kill -9 -1` | Убийство всех процессов |
 | `curl ... \| sh` / `wget ... \| sh` | Пайп удалённого контента в shell |
-| `bash <(curl ...)` | Выполнение удалённого скрипта |
+| ``bash <(curl ...)`` | Выполнение удалённого скрипта |
 | `tee` в `/etc/`, `~/.ssh/`, `~/.hermes/.env` | Запись в чувствительные файлы |
 | `sed -i` на `/etc/` | Редактирование системных файлов |
 | `pkill`/`killall` hermes/gateway | Самоубийство процесса |

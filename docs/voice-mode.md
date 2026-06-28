@@ -1,7 +1,7 @@
 ---
 title: "Voice mode"
 section: "Voice mode"
-sectionOrder: 150
+sectionOrder: 130
 order: 1
 slug: "voice-mode"
 ---

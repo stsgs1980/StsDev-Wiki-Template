@@ -6,6 +6,7 @@ order: 1
 slug: "arhitektura-hermes-agent"
 ---
 
+# Архитектура Hermes Agent
 
 **Версия документа:** 1.0
 **Дата:** 2026-06-28

@@ -1,11 +1,12 @@
 ---
 title: "Nous Portal — Единая подписка для Hermes Agent"
 section: "Nous Portal"
-sectionOrder: 110
+sectionOrder: 60
 order: 1
 slug: "nous-portal"
 ---
 
+# Nous Portal — Единая подписка для Hermes Agent
 
 **Версия документа:** 1.0
 **Дата:** 2026-06-28

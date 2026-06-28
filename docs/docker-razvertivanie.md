@@ -1,7 +1,7 @@
 ---
 title: "Docker развертывание"
 section: "Docker развертывание"
-sectionOrder: 180
+sectionOrder: 160
 order: 1
 slug: "docker-razvertivanie"
 ---

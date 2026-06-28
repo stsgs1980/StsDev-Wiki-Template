@@ -1,11 +1,12 @@
 ---
 title: "Профили — запуск нескольких агентов"
 section: "Профили"
-sectionOrder: 90
+sectionOrder: 80
 order: 1
 slug: "profili"
 ---
 
+# DOC-008: Профили — запуск нескольких агентов
 
 ## Источник
 - https://hermes-agent.nousresearch.com/docs/user-guide/profiles

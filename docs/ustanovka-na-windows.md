@@ -6,6 +6,7 @@ order: 1
 slug: "ustanovka-na-windows"
 ---
 
+# Установка Hermes Agent на Windows
 
 **Версия документа:** 1.1
 **Дата:** 2026-06-28

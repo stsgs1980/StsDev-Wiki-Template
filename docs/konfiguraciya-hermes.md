@@ -1,11 +1,12 @@
 ---
 title: "Конфигурация Hermes Agent"
 section: "Конфигурация"
-sectionOrder: 50
+sectionOrder: 30
 order: 1
 slug: "konfiguraciya-hermes"
 ---
 
+# Конфигурация Hermes Agent
 
 **Версия документа:** 1.0
 **Дата:** 2026-06-28
