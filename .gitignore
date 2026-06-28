@@ -51,3 +51,4 @@ skills/sp-*
 .zscripts/
 /db/
 download/
+/prisma/
