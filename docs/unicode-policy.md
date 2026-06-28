@@ -119,17 +119,17 @@ For technical diagrams in code, allowed:
 
 | Symbol | Usage |
 |--------|-------|
-| -> | right arrow |
-| <- | left arrow |
-| => | implication |
-| <= | reverse implication |
-| \| | vertical line |
-| + | line junction |
-| - | horizontal line |
-| v | down arrow |
-| ^ | up arrow |
-| > | pointer |
-| < | reverse pointer |
+| `->` | right arrow |
+| `<-` | left arrow |
+| `=>` | implication |
+| `<=` | reverse implication |
+| `\|` | vertical line |
+| `+` | line junction |
+| `-` | horizontal line |
+| `v` | down arrow |
+| `^` | up arrow |
+| `>` | pointer |
+| `<` | reverse pointer |
 
 ### 6.3. Code Formatting in Comments and Documentation
 
@@ -650,7 +650,7 @@ ESLint has a built-in rule `no-irregular-whitespace` that catches some Unicode w
 | Letters | a-z, A-Z, a-ya, A-YA |
 | Digits | 0-9 |
 | Punctuation | . , ; : ! ? - _ ( ) [ ] { } |
-| Whitelist symbols [I] | -> <- => <= \| + - v ^ > < |
+| Whitelist symbols [I] | `-> <- => <= \| + - v ^ > <` |
 
 ### 11.2. Exceptions by Agreement
 
